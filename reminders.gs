@@ -10,21 +10,27 @@ function reminderIscrizioni(){
 		return;
 	} 
 
-	// Se dicembre o gennaio esegui lo script
 	let sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[1];
-	
+  Logger.log(`Sheet: ${sheet.getSheetName()}`);
+
 	let headerRow = sheet.getRange("1:1").getValues()[0];
 
 	let nameIndex = headerRow.indexOf(NOME_ATLETA);
 	let surnameIndex = headerRow.indexOf(COGNOME_ATLETA);
 	let emailIndex = headerRow.indexOf(EMAIL);
+	let ongoingIndex = headerRow.indexOf(FREQUENTANTE);
 	
 	let athletes = sheet.getRange("2:" + sheet.getLastRow()).getValues();
 	
 	athletes.forEach(athlete => {
-		let completeName = athlete[nameIndex] + " " + athlete[surnameIndex];
-		let name = athlete[nameIndex];
-		let email = athlete[emailIndex];
+    let isOngoing = athlete[ongoingIndex];
+    let completeName = athlete[nameIndex] + " " + athlete[surnameIndex];
+    let name = athlete[nameIndex];
+    let email = athlete[emailIndex];
+    if(isOngoing.toString().length == 0 || isOngoing == false){ // Skip if the athlete is not ongoing or empty cell
+      Logger.log(`Atleta ${completeName}: ${isOngoing.toString().length == 0 ? "cella \"Frequentante\" vuota" : "non frequentante"}`);
+      return; 
+    }
 
 		if(sendEmail(REMINDER_ISCRIZIONI, email, null, name)) Logger.log("Email di notifica reminder iscrizione a %s inviata correttamente", completeName);
 		else throw Error("Problemi nell'invio email notifica reminder iscrizione a %s", completeName);
