@@ -13,6 +13,7 @@ const DICEMBRE = 11;
 
 
 const INFO_INSERIMENTO = "Informazioni cronologiche";
+const FREQUENTANTE = "Frequentante";
 const INDIRIZZO_EMAIL = "Indirizzo email";
 const NOME_ATLETA = "Nome atleta";
 const COGNOME_ATLETA = "Cognome atleta";
