@@ -40,7 +40,7 @@ function sendEmail(type, receiver, data, name){
         break;
       case REMINDER_SCADENZA_CM:
         htmlEmail = HtmlService.createHtmlOutputFromFile('EmailScadenzaCM.html').getContent();
-        htmlEmail = htmlEmail.replaceAll('NAME_OF_THE_ATHLETE', name);
+        htmlEmail = htmlEmail.replaceAll('ATHLETE_NAME', name);
         htmlEmail = htmlEmail.replaceAll('DAY_OF_EXPIRATION', data['date']);
         htmlEmail = htmlEmail.replaceAll('LINK_TO_MODIFY_RESPONSE', data['url']);
         subject = 'Scadenza certificato medico ' + name;
