@@ -173,7 +173,7 @@ function getAge(bornDate, date) {
 }
 
 /**
- * Function to add an event in the expiration day of the Certificato medico.
+ * Function to add an event in Google Calendar on the expiration day of the Certificato medico.
  * The function deletes the previous event substituted by the new one
  */
 function addExpirationEvent(sheet, row){
@@ -225,10 +225,6 @@ function addExpirationEvent(sheet, row){
   Logger.log("Evento creato: " + newEventName + " il " + cExpirationDate);
 }
 
-// function updateEvents(){
-//   let sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-//   for(let row=2; row<sheet.getLastRow()+1; row++) addExpirationEvent(sheet, row);
-// }
 
 function manageAnswers() {
   /**** Retrieve form information ****/
@@ -243,6 +239,9 @@ function manageAnswers() {
 
   let lastModifiedRow = getAddedRow(sheet, cf);
   Logger.log("Ultima riga aggiunta/modificata: %d", lastModifiedRow);
+
+  /**** Set "Frequentante" as true by default ****/
+  getCell(sheet, lastModifiedRow, FREQUENTANTE).setValue(true);
 
   /**** Link to text for modifying response ****/
   changeLinkToLabel(sheet,lastModifiedRow, LINK_RISPOSTA, TEXT_LINK_RISPOSTA, "modifica risposta", linkToModify);
