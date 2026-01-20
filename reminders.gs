@@ -59,6 +59,7 @@ function reminderPagamenti(){
   let firstPaymentIndex = headerRow.indexOf(PRIMA_RATA);
   let secondPaymentIndex = headerRow.indexOf(SECONDA_RATA);
   let emailIndex = headerRow.indexOf(EMAIL);
+	let ongoingIndex = headerRow.indexOf(FREQUENTANTE);
 
   let athletes = sheet.getRange("2:" + sheet.getLastRow()).getValues();
   
@@ -67,7 +68,13 @@ function reminderPagamenti(){
     let completeName = athlete[nameIndex] + " " + athlete[surnameIndex];
     let email = athlete[emailIndex];
     let responseLink = getCell(sheet, row, LINK_RISPOSTA).getRichTextValue().getLinkUrl();
+    let isOngoing = athlete[ongoingIndex];
     row++;
+
+    if(isOngoing.toString().length == 0 || isOngoing == false){ // Skip if the athlete is not ongoing or empty cell
+      Logger.log(`Atleta ${completeName}: ${isOngoing.toString().length == 0 ? "cella \"Frequentante\" vuota" : "non frequentante"}`);
+      continue; 
+    }
 
 		// 1: paid, 0: not paid, other: future expansions
     let firstPayment = athlete[firstPaymentIndex];
