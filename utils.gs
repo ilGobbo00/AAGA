@@ -4,6 +4,8 @@ const REMINDER_PAGAMENTO = 1;
 const REMINDER_ISCRIZIONI = 2;
 const ISCRIZIONE_COLLEGE = 3;
 const REMINDER_SCADENZA_CM = 4;
+const BUON_COMPLEANNO = 5;
+
 /**
  * Function to send email
  * @param type Content ()
@@ -44,6 +46,11 @@ function sendEmail(type, receiver, data, name){
         htmlEmail = htmlEmail.replaceAll('DAY_OF_EXPIRATION', data['date']);
         htmlEmail = htmlEmail.replaceAll('LINK_TO_MODIFY_RESPONSE', data['url']);
         subject = 'Scadenza certificato medico ' + name;
+        break;
+      case BUON_COMPLEANNO:
+        htmlEmail = HtmlService.createHtmlOutputFromFile('EmailCompleanno.html').getContent();
+        htmlEmail = htmlEmail.replaceAll('ATHLETE_NAME', name);
+        subject = 'Buon compleanno ' + name + '!';
         break;
       default:
         Logger.log("Tipo di email non riconosciuto (%d)", type);

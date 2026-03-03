@@ -188,3 +188,39 @@ function reminderCertificatoMedico(){
   })
 
 }
+
+/**
+ * Function to send happy birthday celebrations to athletes
+ */
+function reminderCompleanni(){
+  let sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+  Logger.log(`Sheet: ${sheet.getSheetName()}`);
+
+	let headerRow = sheet.getRange("1:1").getValues()[0];
+
+	let nameIndex = headerRow.indexOf(NOME_ATLETA);
+	let emailIndex = headerRow.indexOf(EMAIL);
+	let ongoingIndex = headerRow.indexOf(FREQUENTANTE);
+	let birthdayIndex = headerRow.indexOf(DATA_NASCITA_ATLETA);
+
+	let athletes = sheet.getRange("2:" + sheet.getLastRow()).getValues();
+	
+	athletes.forEach(athlete => {
+    let isOngoing = athlete[ongoingIndex];
+    let name = athlete[nameIndex];
+    let email = athlete[emailIndex];
+    let birthday = new Date(athlete[birthdayIndex]);
+    
+    if(isOngoing.toString().length == 0 || isOngoing == false){ // Skip if the athlete is not ongoing or empty cell
+      Logger.log(`Atleta ${name}: ${isOngoing.toString().length == 0 ? "cella \"Frequentante\" vuota" : "non frequentante"}`);
+      return; 
+    }
+
+    if(birthday.getDate() != new Date().getDate() || birthday.getMonth() != new Date().getMonth()){
+      return; 
+    }
+
+		if(sendEmail(BUON_COMPLEANNO, email, null, name)) Logger.log("Email di notifica compleanno a %s inviata correttamente", name);
+		else throw Error("Problemi nell'invio email notifica compleanno a %s", name);
+	});
+}
