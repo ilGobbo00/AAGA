@@ -65,7 +65,7 @@ function getAddedRow(sheet, fiscalCode){
   }
 
   // Delete (hide for now) the older rows
-  rows.forEach(row => sheet.hideRows(row.index));
+  // rows.forEach(row => sheet.hideRows(row.index)); // Feature disabled for now
 
   return newestRow.index;
 }
